@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useRef } from 'react';
+import '../styles/map.css';
 import useGeolocation from 'react-hook-geolocation';
 
 const Map = function () {
@@ -12,10 +13,6 @@ const Map = function () {
   const mapElement = useRef(null);
 
   useEffect(() => {
-    // let vh = 0;
-    // vh = window.innerHeight * 0.01;
-    // document.documentElement.style.setProperty('--vh', `${vh}px`);
-
     const { naver } = window;
     if (!mapElement.current || !naver) return;
 
@@ -28,17 +25,32 @@ const Map = function () {
       },
     };
     const map = new naver.maps.Map('map', mapOptions);
+    const bicycleLayer = new naver.maps.BicycleLayer();
+
+    const btn = document.getElementById('bicycle');
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (bicycleLayer.getMap()) {
+        bicycleLayer.setMap(null);
+      } else {
+        bicycleLayer.setMap(map);
+      }
+    });
+
+    naver.maps.Event.addListener(map, 'bicycleLayer_changed', (bicycleLayer) => {
+      if (bicycleLayer) {
+        btn.classList.add('control-on');
+      } else {
+        btn.classList.remove('control-on');
+      }
+    });
   }, [location]);
+
   return !geolocation.error ? (
-    <div
-      id="map"
-      style={{
-        flex: 0.8,
-        height: 1200,
-      }}
-    >
+    <div id="map">
       <div ref={mapElement}></div>
-      <button id="bicycle" style={{ zIndex: 10 }}>
+      <button id="bicycle" style={{ position: 'absolute', zIndex: 100, margin: 10 }}>
         자전거 도로
       </button>
     </div>
