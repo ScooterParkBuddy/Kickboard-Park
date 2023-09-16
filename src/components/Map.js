@@ -12,15 +12,16 @@ const Map = () => {
   const lat = geolocation.latitude;
   const lng = geolocation.longitude;
 
-  const location = new naver.maps.LatLng(lat, lng);
+  const location = new naver.maps.LatLng(37.5176412282367, 127.041673152472);
 
   useEffect(() => {
+    console.log('useEffect');
     const { naver } = window;
     if (!naver) return;
 
     const mapOptions = {
       center: location,
-      zoom: 20,
+      zoom: 15,
       mapTypeControl: true,
       mapTypeControlOptions: {
         style: naver.maps.MapTypeControlStyle.DROPDOWN,
@@ -29,33 +30,38 @@ const Map = () => {
     const map = new naver.maps.Map('map', mapOptions);
 
     //마커
-    const markers = [];
-    const getParkingInfoList = () => {
-      axios.get('/dummy/parkingData.json').then((res) => {
-        for (let i = 0; i < res.data.park.length; i++) {
-          const parking = res.data.park;
-          const position = new naver.maps.LatLng(parking[i].lat, parking[i].lng);
-          const marker = new naver.maps.Marker({
-            map: map,
-            position: position,
-            title: parking[i].address,
-          });
-          markers.push(marker);
-        }
-      });
-    };
-    console.log('markers', markers);
-    getParkingInfoList();
-    // const marker = new naver.maps.Marker({
-    //   position: location,
-    //   map: map,
-    // });
-    // const infoWindow = new naver.maps.InfoWindow({
-    //   content: `<box style="width:400px; text-align:center; padding:10px;">내 위치</box>`,
-    // });
-    // infoWindow.open(map, marker);
+    let markers = [];
+    let infoWindows = [];
+    //const getParkingInfoList = () => {
+    axios.get('/dummy/parkingData.json').then((res) => {
+      for (let i = 0; i < res.data.park.length; i++) {
+        const parking = res.data.park;
+        const position = new naver.maps.LatLng(parking[i].lat, parking[i].lng);
+        const marker = new naver.maps.Marker({
+          map: map,
+          position: position,
+          title: parking[i].address,
+        });
+        const infoWindow = new naver.maps.InfoWindow({
+          content: `<div style="width:auto; text-align:center; font-size:75%; padding:10px;"><b>${parking[i].placeName}</b><br /><p>${parking[i].address}</p></div>`,
+        });
+        marker.addListener('click', () => {
+          if (infoWindow.getMap()) {
+            infoWindow.close();
+          } else {
+            infoWindow.open(map, marker);
+          }
+        });
+        markers.push(marker);
+        infoWindows.push(infoWindow);
+      }
+    });
+    //};
+    //getParkingInfoList();
 
-    updateMarkers(map, markers);
+    naver.maps.Event.addListener(map, 'idle', function () {
+      updateMarkers(map, markers);
+    });
     naver.maps.Event.addListener(map, 'zoom_changed', function () {
       updateMarkers(map, markers);
     });
@@ -63,11 +69,11 @@ const Map = () => {
     naver.maps.Event.addListener(map, 'dragend', function () {
       updateMarkers(map, markers);
     });
+
     function updateMarkers(map, markers) {
-      console.log('update');
       const mapBounds = map.getBounds();
 
-      for (var i = 0; i < markers.length; i++) {
+      for (let i = 0; i < markers.length; i++) {
         const marker = markers[i];
         const position = marker.getPosition();
 
@@ -78,17 +84,36 @@ const Map = () => {
         }
       }
     }
-
     function showMarker(map, marker) {
-      console.log(marker);
-      if (marker.getMap()) return;
+      if (marker.setMap()) return;
       marker.setMap(map);
     }
 
     function hideMarker(map, marker) {
-      if (!marker.getMap()) return;
+      if (!marker.setMap()) return;
       marker.setMap(null);
     }
+    function getClickHandler(seq) {
+      return function (e) {
+        console.log('marker click', seq);
+        const marker = markers[seq];
+        const infoWindow = infoWindows[seq];
+        if (infoWindow.getMap()) {
+          console.log('닫아라');
+          infoWindow.close();
+        } else {
+          console.log('열어라');
+          infoWindow.open(map, marker);
+        }
+      };
+    }
+    // const bound = document.getElementById('map');
+    // bound.addEventListener('click', () => {
+    //   console.log('click');
+    //   for (let i = 0, ii = markers.length; i < ii; i++) {
+    //     naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
+    //   }
+    // });
 
     //자전거도로 레이어
     const bicycleLayer = new naver.maps.BicycleLayer();
@@ -110,7 +135,7 @@ const Map = () => {
         btn.classList.remove('control-on');
       }
     });
-  }, [location]);
+  }, []);
 
   return !geolocation.error ? (
     <div id="map">
