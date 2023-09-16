@@ -139,7 +139,7 @@ const Map = () => {
 
   return !geolocation.error ? (
     <div id="map">
-      <button id="bicycle" style={{ position: 'absolute', zIndex: 100, margin: 10 }}>
+      <button id="bicycle" style={{ position: 'absolute', zIndex: 100, margin: 10, borderRadius: 10 }}>
         자전거 도로
       </button>
     </div>
