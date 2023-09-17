@@ -1,0 +1,19 @@
+.navbar {
+  width: 100%;
+  background-color: white;
+  padding: 15px 0px;
+  text-align: left;
+}
+.navMenu {
+  color: black;
+  margin: 8px;
+  font-style: bold;
+  text-decoration: none;
+}
+.active {
+  color: rgb(255, 116, 139);
+}
+.my {
+  float: right;
+  margin-right: 20px;
+}

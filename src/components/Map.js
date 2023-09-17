@@ -1,11 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-undef */
-import React, { useEffect, createContext } from 'react';
+import React, { useEffect } from 'react';
 import '../styles/map.css';
 import useGeolocation from 'react-hook-geolocation';
 import axios from 'axios';
+import Bicycle from './bicycle';
 
-export const MapContext = createContext();
 const Map = () => {
   const geolocation = useGeolocation();
 
@@ -22,10 +22,6 @@ const Map = () => {
     const mapOptions = {
       center: location,
       zoom: 15,
-      mapTypeControl: true,
-      mapTypeControlOptions: {
-        style: naver.maps.MapTypeControlStyle.DROPDOWN,
-      },
     };
     const map = new naver.maps.Map('map', mapOptions);
 
@@ -56,7 +52,7 @@ const Map = () => {
       }
     });
 
-    naver.maps.Event.addListener(map, 'init', function () {
+    naver.maps.Event.addListener(map, 'idle', function () {
       updateMarkers(map, markers);
     });
 
@@ -101,17 +97,17 @@ const Map = () => {
     naver.maps.Event.addListener(map, 'bicycleLayer_changed', (bicycleLayer) => {
       if (bicycleLayer) {
         btn.classList.add('control-on');
+        btn.classList.remove('control-off');
       } else {
         btn.classList.remove('control-on');
+        btn.classList.add('control-off');
       }
     });
   }, []);
 
   return !geolocation.error ? (
     <div id="map">
-      <button id="bicycle" style={{ position: 'absolute', zIndex: 100, margin: 10, borderRadius: 10 }}>
-        자전거 도로
-      </button>
+      <Bicycle />
     </div>
   ) : (
     <p>No geolocation, sorry.</p>
