@@ -5,7 +5,7 @@ function Nav() {
   return (
     <div>
       <div className="navbar">
-        <NavLink to="/home" className="navMenu" activeclassname="active">
+        <NavLink to="/" className="navMenu" activeclassname="active">
           홈
         </NavLink>
         <NavLink to="/community" className="navMenu" activeclassname="active">
@@ -14,9 +14,7 @@ function Nav() {
         <NavLink to="/help" className="navMenu" activeclassname="active">
           고객센터
         </NavLink>
-        <box className="my">
-          <button id="my">로그인</button>
-        </box>
+        <button id="my">로그인</button>
       </div>
     </div>
   );

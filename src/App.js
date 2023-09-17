@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <Navi />
       <Routes>
-        <Route path="/home" element={<Map />} />
+        <Route path="/" element={<Map />} />
         <Route path="/community" element={<Community />} />
         <Route path="/help" element={<Help />} />
       </Routes>
