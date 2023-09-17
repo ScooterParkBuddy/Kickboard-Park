@@ -32,7 +32,6 @@ const Map = () => {
     //마커
     let markers = [];
     let infoWindows = [];
-    //const getParkingInfoList = () => {
     axios.get('/dummy/parkingData.json').then((res) => {
       for (let i = 0; i < res.data.park.length; i++) {
         const parking = res.data.park;
@@ -56,27 +55,18 @@ const Map = () => {
         infoWindows.push(infoWindow);
       }
     });
-    //};
-    //getParkingInfoList();
 
-    naver.maps.Event.addListener(map, 'idle', function () {
-      updateMarkers(map, markers);
-    });
-    naver.maps.Event.addListener(map, 'zoom_changed', function () {
-      updateMarkers(map, markers);
-    });
-
-    naver.maps.Event.addListener(map, 'dragend', function () {
+    naver.maps.Event.addListener(map, 'init', function () {
       updateMarkers(map, markers);
     });
 
     function updateMarkers(map, markers) {
+      console.log('update');
       const mapBounds = map.getBounds();
 
       for (let i = 0; i < markers.length; i++) {
         const marker = markers[i];
         const position = marker.getPosition();
-
         if (mapBounds.hasLatLng(position)) {
           showMarker(map, marker);
         } else {
@@ -85,6 +75,7 @@ const Map = () => {
       }
     }
     function showMarker(map, marker) {
+      console.log(marker);
       if (marker.setMap()) return;
       marker.setMap(map);
     }
@@ -93,27 +84,6 @@ const Map = () => {
       if (!marker.setMap()) return;
       marker.setMap(null);
     }
-    function getClickHandler(seq) {
-      return function (e) {
-        console.log('marker click', seq);
-        const marker = markers[seq];
-        const infoWindow = infoWindows[seq];
-        if (infoWindow.getMap()) {
-          console.log('닫아라');
-          infoWindow.close();
-        } else {
-          console.log('열어라');
-          infoWindow.open(map, marker);
-        }
-      };
-    }
-    // const bound = document.getElementById('map');
-    // bound.addEventListener('click', () => {
-    //   console.log('click');
-    //   for (let i = 0, ii = markers.length; i < ii; i++) {
-    //     naver.maps.Event.addListener(markers[i], 'click', getClickHandler(i));
-    //   }
-    // });
 
     //자전거도로 레이어
     const bicycleLayer = new naver.maps.BicycleLayer();
