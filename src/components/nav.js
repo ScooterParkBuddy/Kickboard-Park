@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import '../styles/nav.css';
+import KakaoLogin from './kakao_login';
 
 function Nav() {
   return (
@@ -14,7 +15,9 @@ function Nav() {
         <NavLink to="/help" className="navMenu" activeclassname="active">
           고객센터
         </NavLink>
-        <button id="my">로그인</button>
+        <div id="my">
+          <KakaoLogin />
+        </div>
       </div>
     </div>
   );

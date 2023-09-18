@@ -5,6 +5,7 @@ import '../styles/map.css';
 import useGeolocation from 'react-hook-geolocation';
 import axios from 'axios';
 import Bicycle from './bicycle';
+import Search from './search';
 
 const Map = () => {
   const geolocation = useGeolocation();
@@ -107,6 +108,7 @@ const Map = () => {
 
   return !geolocation.error ? (
     <div id="map">
+      <Search />
       <Bicycle />
     </div>
   ) : (
