@@ -20,8 +20,8 @@ function Community() {
           <li>강남구 xx동 사고</li>
         </div>
       </div>
-      <div>
-        <h1 onClick={navigateToGeneral}>자유게시판</h1>
+      <div id="generalArea">
+        <h1 onClick={navigateToGeneral}>🌟 자유게시판</h1>
         <div id="generalForum"></div>
       </div>
     </div>

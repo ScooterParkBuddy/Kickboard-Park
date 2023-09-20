@@ -1,20 +1,34 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-undef */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/map.css';
-import useGeolocation from 'react-hook-geolocation';
+//import useGeolocation from 'react-hook-geolocation';
 import axios from 'axios';
 import Bicycle from './bicycle';
 import Search from './search';
 
-const Map = () => {
-  const geolocation = useGeolocation();
+const Map = (props) => {
+  // const geolocation = useGeolocation();
 
-  const lat = geolocation.latitude;
-  const lng = geolocation.longitude;
+  // const lat = geolocation.latitude;
+  // const lng = geolocation.longitude;
+  let lat = props.lat;
+  let lng = props.lng;
 
-  const location = new naver.maps.LatLng(37.5176412282367, 127.041673152472);
+  const [newLat, setLat] = useState(lat);
+  const [newLng, setLng] = useState(lng);
 
+  const getLat = (value) => {
+    setLat(value);
+    console.log(value);
+  };
+  const getLng = (value) => {
+    setLng(value);
+  };
+  lat = newLat;
+  lng = newLng;
+  const location = new naver.maps.LatLng(lat, lng);
+  console.log(location);
   useEffect(() => {
     console.log('useEffect');
     const { naver } = window;
@@ -104,11 +118,11 @@ const Map = () => {
         btn.classList.add('control-off');
       }
     });
-  }, []);
+  }, [lat, lng]);
 
-  return !geolocation.error ? (
+  return !props.error ? (
     <div id="map">
-      <Search />
+      <Search getLat={getLat} getLng={getLng} newLat={newLat} newLng={newLng} />
       <Bicycle />
     </div>
   ) : (

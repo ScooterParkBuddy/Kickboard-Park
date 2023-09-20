@@ -1,4 +1,8 @@
 function AccidentForum() {
-  return <h1>accident</h1>;
+  return (
+    <>
+      <h1>자유게시판</h1>
+    </>
+  );
 }
 export default AccidentForum;
