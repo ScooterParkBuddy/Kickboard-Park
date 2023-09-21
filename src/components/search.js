@@ -1,5 +1,6 @@
 import '../styles/search.css';
 import { useEffect } from 'react';
+import axios from 'axios';
 
 function Search(props) {
   // const lat = new Array();
@@ -11,9 +12,13 @@ function Search(props) {
   const setLng = (num) => {
     props.getLng(num);
   };
+  const setUrl = (num) => {
+    props.getUrl(num);
+  };
+  const url = '/search';
   useEffect(() => {
     const search = document.getElementById('searchForm');
-    //const searchInput = document.getElementById('searchword');
+    const searchInput = document.getElementById('searchword');
     const ul = document.querySelector('ul');
 
     search.addEventListener('submit', (e) => {
@@ -21,22 +26,44 @@ function Search(props) {
       while (ul.firstChild) {
         ul.removeChild(ul.firstChild);
       }
-      const li = document.createElement('li');
-      const b = document.createElement('b');
-      const p = document.createElement('p');
-      b.innerText = '서울역';
-      p.innerText = '서울 강남구 강남대로 396';
-      //   lat[i] = lat;
-      //   lng[i] = lng;
-      li.addEventListener('click', (e) => {
-        setLat(37.5546788388674);
-        setLng(126.970606927494);
-        alert('click');
-      });
-      li.appendChild(b);
-      li.appendChild(p);
-      ul.appendChild(li);
-      ul.classList.remove('hidden');
+      console.log(searchInput.value);
+      axios({
+        method: 'get',
+        url: 'search/keyword',
+        params: {
+          keyword: `'${searchInput.value}'`,
+        },
+      })
+        .then((res) => {
+          const result = res.data;
+          const li = document.createElement('li');
+          const b = document.createElement('b');
+          const p = document.createElement('p');
+          const lat = document.createElement('p');
+          const lng = document.createElement('p');
+          // for (let i = 0; i < result.length; i++) {
+          b.innerText = result.placeName;
+          p.innerText = result.address;
+          lat.innerText = result.lat;
+          lng.innerText = result.lng;
+          lat.className = 'hidden';
+          lng.className = 'hidden';
+          //}
+          li.addEventListener('click', (e) => {
+            setLat(lat.innerText);
+            setLng(lng.innerText);
+            setUrl(url);
+          });
+          li.appendChild(b);
+          li.appendChild(p);
+          li.appendChild(lat);
+          li.appendChild(lng);
+          ul.appendChild(li);
+          ul.classList.remove('hidden');
+        })
+        .catch((error) => {
+          alert(error);
+        });
     });
   }, []);
   return (

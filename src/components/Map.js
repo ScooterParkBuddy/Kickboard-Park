@@ -14,21 +14,26 @@ const Map = (props) => {
   // const lng = geolocation.longitude;
   let lat = props.lat;
   let lng = props.lng;
+  let url = props.url;
 
   const [newLat, setLat] = useState(lat);
   const [newLng, setLng] = useState(lng);
+  const [newUrl, setUrl] = useState(url);
 
   const getLat = (value) => {
     setLat(value);
-    console.log(value);
   };
   const getLng = (value) => {
     setLng(value);
   };
+  const getUrl = (value) => {
+    setUrl(value);
+  };
   lat = newLat;
   lng = newLng;
+  url = newUrl;
+
   const location = new naver.maps.LatLng(lat, lng);
-  console.log(location);
   useEffect(() => {
     console.log('useEffect');
     const { naver } = window;
@@ -36,36 +41,56 @@ const Map = (props) => {
 
     const mapOptions = {
       center: location,
-      zoom: 15,
+      zoom: 13,
     };
     const map = new naver.maps.Map('map', mapOptions);
 
     //마커
     let markers = [];
     let infoWindows = [];
-    axios.get('/dummy/parkingData.json').then((res) => {
-      for (let i = 0; i < res.data.park.length; i++) {
-        const parking = res.data.park;
-        const position = new naver.maps.LatLng(parking[i].lat, parking[i].lng);
-        const marker = new naver.maps.Marker({
-          map: map,
-          position: position,
-          title: parking[i].address,
-        });
-        const infoWindow = new naver.maps.InfoWindow({
-          content: `<div style="width:auto; text-align:center; font-size:75%; padding:10px;"><b>${parking[i].placeName}</b><br /><p>${parking[i].address}</p></div>`,
-        });
-        marker.addListener('click', () => {
-          if (infoWindow.getMap()) {
-            infoWindow.close();
-          } else {
-            infoWindow.open(map, marker);
-          }
-        });
-        markers.push(marker);
-        infoWindows.push(infoWindow);
-      }
-    });
+    let axi;
+    if (url === '/search') {
+      axi = axios({
+        method: 'get',
+        url: url,
+        params: {
+          x: lng,
+          y: lat,
+        },
+      });
+    } else {
+      axi = axios({
+        method: 'get',
+        url: url,
+      });
+    }
+    axi
+      .then((res) => {
+        for (let i = 0; i < res.data.length; i++) {
+          const parking = res.data;
+          const position = new naver.maps.LatLng(parking[i].latitude, parking[i].longitude);
+          const marker = new naver.maps.Marker({
+            map: map,
+            position: position,
+            title: parking[i].address,
+          });
+          const infoWindow = new naver.maps.InfoWindow({
+            content: `<div style="width:auto; text-align:center; font-size:75%; padding:10px;"><b>${parking[i].placeName}</b><br /><p>${parking[i].address}</p></div>`,
+          });
+          marker.addListener('click', () => {
+            if (infoWindow.getMap()) {
+              infoWindow.close();
+            } else {
+              infoWindow.open(map, marker);
+            }
+          });
+          infoWindows.push(infoWindow);
+          markers.push(marker);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
     naver.maps.Event.addListener(map, 'idle', function () {
       updateMarkers(map, markers);
@@ -86,7 +111,6 @@ const Map = (props) => {
       }
     }
     function showMarker(map, marker) {
-      console.log(marker);
       if (marker.setMap()) return;
       marker.setMap(map);
     }
@@ -122,7 +146,7 @@ const Map = (props) => {
 
   return !props.error ? (
     <div id="map">
-      <Search getLat={getLat} getLng={getLng} newLat={newLat} newLng={newLng} />
+      <Search getLat={getLat} getLng={getLng} getUrl={getUrl} newLat={newLat} newLng={newLng} newUrl={newUrl} />
       <Bicycle />
     </div>
   ) : (

@@ -13,11 +13,12 @@ function App() {
   //const lng = geolocation.longitude;
   const lat = 37.5176412282367;
   const lng = 127.041673152472;
+  const url = '/parking';
   return (
     <BrowserRouter>
       <Navi />
       <Routes>
-        <Route path="/" element={<Map lat={lat} lng={lng} />} />
+        <Route path="/" element={<Map lat={lat} lng={lng} url={url} />} />
         <Route path="/community" element={<Community />} />
         <Route path="/help" element={<Help />} />
         <Route path="/community/accident" element={<AccidentForum />} />
