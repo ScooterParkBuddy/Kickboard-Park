@@ -26,7 +26,6 @@ function Search(props) {
       while (ul.firstChild) {
         ul.removeChild(ul.firstChild);
       }
-      console.log(searchInput.value);
       axios({
         method: 'get',
         url: 'search/keyword',

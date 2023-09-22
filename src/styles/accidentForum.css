@@ -1,0 +1,53 @@
+#boardname {
+  text-align: center;
+  position: fixed;
+  top: 5%;
+  display: block;
+}
+#writeBtn {
+  position: fixed;
+  top: 8%;
+  z-index: 100;
+
+  right: 1%;
+}
+#wrapper {
+  max-height: 100%;
+  overflow: hidden;
+}
+dl {
+  /*top right bottom left*/
+  margin: 3% 3% 0 3%;
+}
+dl dt {
+  font-size: large;
+  font-weight: bold;
+}
+#list {
+  margin-top: 15%;
+  max-height: 100vh;
+  overflow-y: scroll;
+}
+#sumContent {
+  text-indent: -30px;
+  margin-top: 5px;
+}
+#info {
+  margin-top: 12px;
+  text-indent: -40px;
+  color: gray;
+}
+/* #reply {
+  margin-top: 12px;
+  float: right;
+}
+#reply span {
+  margin: 0 5px 0 5px;
+} */
+#contentWrapper {
+  width: 80%;
+  margin-left: 10%;
+}
+ol li {
+  list-style: none;
+}

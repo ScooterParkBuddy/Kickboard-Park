@@ -1,10 +1,8 @@
 import '../styles/community.css';
 import { useNavigate } from 'react-router-dom';
-import { Outlet } from 'react-router-dom';
 
 function Community() {
   const navigate = useNavigate();
-
   const navigateToAccident = () => {
     navigate('/community/accident');
   };

@@ -1,0 +1,47 @@
+#contentArea {
+  z-index: 100;
+  margin-top: 1%;
+  width: 30%;
+  float: right;
+  display: flex;
+  flex-direction: column;
+}
+#btn {
+  margin-left: 80%;
+  margin-bottom: 10%;
+  background: url('../assets/images/ellipsis-vertical-solid.svg') no-repeat;
+  width: 2vw;
+  height: 2vh;
+  border: none;
+}
+.hidden {
+  display: none;
+}
+
+#contentMenu {
+  flex-direction: column;
+  margin-right: 20%;
+  border-radius: 15%;
+  box-shadow: rgba(128, 128, 128, 0.576) 2px 2px 2px 2px;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+}
+#updateBtn {
+  z-index: 150;
+  background-color: transparent;
+  padding: 15% 0 10% 0;
+  font-size: large;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-color: rgba(128, 128, 128, 0.153);
+}
+#deleteBtn {
+  color: red;
+  z-index: 150;
+  background-color: transparent;
+  padding: 15% 0 10% 0;
+  font-size: large;
+  border: none;
+}

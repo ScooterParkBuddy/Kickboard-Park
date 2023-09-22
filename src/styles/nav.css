@@ -1,4 +1,6 @@
 .navbar {
+  position: fixed;
+  top: 0;
   height: 30px;
   width: 100%;
   background-color: white;
@@ -8,11 +10,12 @@
 .navMenu {
   color: black;
   margin-left: 20px;
-  font-style: bold;
+  font-size: large;
   text-decoration: none;
 }
 .active {
   color: rgb(255, 116, 139);
+  font-weight: bold;
 }
 #my {
   float: right;
