@@ -24,7 +24,7 @@ dl dt {
   font-weight: bold;
 }
 #list {
-  margin-top: 15%;
+  margin-top: 8%;
   max-height: 100vh;
   overflow-y: scroll;
 }
