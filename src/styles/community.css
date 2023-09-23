@@ -2,7 +2,7 @@
   background-color: pink;
   width: 100%;
   height: 96vh;
-  margin-top: 4%;
+  margin-top: 5%;
   padding-top: 3%;
   overflow: scroll;
 }
@@ -13,6 +13,7 @@ h1 {
   background-color: antiquewhite;
   width: 80%;
   margin-left: 5%;
+  overflow-y: hidden;
   height: 30vh;
   padding: 5%;
 }
@@ -20,6 +21,7 @@ h1 {
   background-color: chocolate;
   width: 80%;
   top: 50%;
+  overflow-y: hidden;
   margin-left: 5%;
   height: 30vh;
   padding: 5%;
@@ -27,4 +29,13 @@ h1 {
 #generalArea {
   padding-top: 3%;
   margin-bottom: 5%;
+}
+#titleList {
+  margin: 1%;
+  font-weight: bold;
+  list-style-type: none;
+  width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }

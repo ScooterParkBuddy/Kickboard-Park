@@ -1,13 +1,22 @@
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 function WriteContents() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const promise = { ...location.state };
   useEffect(() => {
     const inputTitle = document.getElementById('title');
     const inputContents = document.getElementById('contents');
     const writeForm = document.getElementById('writeForm');
     const boardSelect = document.getElementById('boardId');
+    const option = document.querySelectorAll('option');
+    for (let i = 0; i < option.length; i++) {
+      console.log('board', promise.BOARD_ID);
+      if (Number(option[i].value) === promise.BOARD_ID) {
+        option[i].selected = true;
+      }
+    }
 
     writeForm.addEventListener('submit', (e) => {
       e.preventDefault();

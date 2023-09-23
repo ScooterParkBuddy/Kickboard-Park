@@ -1,4 +1,4 @@
-import '../styles/accidentForum.css';
+import '../styles/forum.css';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -6,14 +6,19 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ContentsModel from '../models/contentsModel';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useIsFocused } from '../utils/hooks/use-is-focused';
+import { useIsFocused } from '../utils/hooks/use-is-focused-acc';
 import convertDateToString from '../utils/hooks/convertDateToString';
 library.add(faArrowLeft);
+const BOARD_ID = 0;
 
 function AccidentForum() {
   const navigate = useNavigate();
   const navigateToWrite = () => {
-    navigate('/community/write');
+    navigate('/community/write', {
+      state: {
+        BOARD_ID: BOARD_ID,
+      },
+    });
   };
   const isFocused = useIsFocused();
 
@@ -27,7 +32,7 @@ function AccidentForum() {
     const list = document.getElementById('list');
 
     const getData = () => {
-      const promise = ContentsModel.gets(0);
+      const promise = ContentsModel.gets(BOARD_ID);
       promise.then((data) => {
         console.log('data', data);
         for (let i = data.length - 1; i >= 0; i--) {
