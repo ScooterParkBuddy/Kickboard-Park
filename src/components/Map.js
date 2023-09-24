@@ -2,16 +2,11 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useState } from 'react';
 import '../styles/map.css';
-//import useGeolocation from 'react-hook-geolocation';
 import axios from 'axios';
 import Bicycle from './bicycle';
 import Search from './search';
 
 const Map = (props) => {
-  // const geolocation = useGeolocation();
-
-  // const lat = geolocation.latitude;
-  // const lng = geolocation.longitude;
   let lat = props.lat;
   let lng = props.lng;
   let url = props.url;
@@ -32,16 +27,15 @@ const Map = (props) => {
   lat = newLat;
   lng = newLng;
   url = newUrl;
-
   const location = new naver.maps.LatLng(lat, lng);
+
   useEffect(() => {
-    console.log('useEffect');
     const { naver } = window;
     if (!naver) return;
 
     const mapOptions = {
       center: location,
-      zoom: 13,
+      zoom: 15,
     };
     const map = new naver.maps.Map('map', mapOptions);
 
@@ -50,47 +44,74 @@ const Map = (props) => {
     let infoWindows = [];
     let axi;
     if (url === '/search') {
-      axi = axios({
+      axios({
         method: 'get',
         url: url,
         params: {
           x: lng,
           y: lat,
         },
-      });
+      })
+        .then((res) => {
+          for (let i = 0; i < res.data.length; i++) {
+            const parking = res.data;
+            console.log(parking);
+            const position = new naver.maps.LatLng(parking[i].lat, parking[i].lng);
+            const marker = new naver.maps.Marker({
+              map: map,
+              position: position,
+              title: parking[i].address,
+            });
+            const infoWindow = new naver.maps.InfoWindow({
+              content: `<div style="width:auto; text-align:center; font-size:75%; padding:10px;"><b>${parking[i].placeName}</b><br /><p>${parking[i].address}</p></div>`,
+            });
+            marker.addListener('click', () => {
+              if (infoWindow.getMap()) {
+                infoWindow.close();
+              } else {
+                infoWindow.open(map, marker);
+              }
+            });
+            infoWindows.push(infoWindow);
+            markers.push(marker);
+          }
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
     } else {
-      axi = axios({
+      axios({
         method: 'get',
         url: url,
-      });
-    }
-    axi
-      .then((res) => {
-        for (let i = 0; i < res.data.length; i++) {
-          const parking = res.data;
-          const position = new naver.maps.LatLng(parking[i].latitude, parking[i].longitude);
-          const marker = new naver.maps.Marker({
-            map: map,
-            position: position,
-            title: parking[i].address,
-          });
-          const infoWindow = new naver.maps.InfoWindow({
-            content: `<div style="width:auto; text-align:center; font-size:75%; padding:10px;"><b>${parking[i].placeName}</b><br /><p>${parking[i].address}</p></div>`,
-          });
-          marker.addListener('click', () => {
-            if (infoWindow.getMap()) {
-              infoWindow.close();
-            } else {
-              infoWindow.open(map, marker);
-            }
-          });
-          infoWindows.push(infoWindow);
-          markers.push(marker);
-        }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((res) => {
+          for (let i = 0; i < res.data.length; i++) {
+            const parking = res.data;
+            console.log(parking);
+            const position = new naver.maps.LatLng(parking[i].latitude, parking[i].longitude);
+            const marker = new naver.maps.Marker({
+              map: map,
+              position: position,
+              title: parking[i].address,
+            });
+            const infoWindow = new naver.maps.InfoWindow({
+              content: `<div style="width:auto; text-align:center; font-size:75%; padding:10px;"><b>${parking[i].placeName}</b><br /><p>${parking[i].address}</p></div>`,
+            });
+            marker.addListener('click', () => {
+              if (infoWindow.getMap()) {
+                infoWindow.close();
+              } else {
+                infoWindow.open(map, marker);
+              }
+            });
+            infoWindows.push(infoWindow);
+            markers.push(marker);
+          }
+        })
+        .catch((error) => {
+          console.log(error.response);
+        });
+    }
 
     naver.maps.Event.addListener(map, 'idle', function () {
       updateMarkers(map, markers);

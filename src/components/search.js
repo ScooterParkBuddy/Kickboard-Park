@@ -2,6 +2,7 @@ import '../styles/search.css';
 import { useEffect } from 'react';
 import axios from 'axios';
 
+const HIDDEN_CLASS = 'hidden';
 function Search(props) {
   // const lat = new Array();
   // const lng = new Array();
@@ -45,20 +46,24 @@ function Search(props) {
           p.innerText = result.address;
           lat.innerText = result.lat;
           lng.innerText = result.lng;
-          lat.className = 'hidden';
-          lng.className = 'hidden';
+          lat.className = HIDDEN_CLASS;
+          lng.className = HIDDEN_CLASS;
           //}
           li.addEventListener('click', (e) => {
             setLat(lat.innerText);
             setLng(lng.innerText);
             setUrl(url);
+            ul.classList.add(HIDDEN_CLASS);
+            while (ul.firstChild) {
+              ul.removeChild(ul.firstChild);
+            }
           });
           li.appendChild(b);
           li.appendChild(p);
           li.appendChild(lat);
           li.appendChild(lng);
           ul.appendChild(li);
-          ul.classList.remove('hidden');
+          ul.classList.remove(HIDDEN_CLASS);
         })
         .catch((error) => {
           alert(error);
