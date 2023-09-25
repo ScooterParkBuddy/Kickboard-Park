@@ -11,32 +11,20 @@ function KaKaoLogin() {
   const navigate = useNavigate();
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
-    axios({
+    loginAxios({
       method: 'get',
-      url: '/kakao/login',
+      url: '/login',
       params: {
         code: code,
       },
     })
       .then((res) => {
         const accessToken = res.data.access_token;
-        console.log('token', accessToken);
+        console.log('kakao', accessToken);
         if (res.status === 200) {
-          console.log('200');
           setPostHeaders(accessToken);
           setLoginHeaders(accessToken);
-          // loginAxios.defaults.common.Authorization = `Bearer ${accessToken}`;
-          // console.log('auth', postAxios.defaults.headers.common.Authorization);
-          loginAxios({
-            method: 'get',
-            url: '/my',
-          })
-            .then((response) => {
-              console.log('response', response);
-            })
-            .catch((error) => {
-              console.log('error', error);
-            });
+          LoginModel.onLoginSuccess(accessToken);
           navigate('/');
         }
       })
