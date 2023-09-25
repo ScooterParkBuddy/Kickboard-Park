@@ -12,7 +12,6 @@ function WriteContents() {
     const boardSelect = document.getElementById('boardId');
     const option = document.querySelectorAll('option');
     for (let i = 0; i < option.length; i++) {
-      console.log('board', promise.BOARD_ID);
       if (Number(option[i].value) === promise.BOARD_ID) {
         option[i].selected = true;
       }

@@ -1,11 +1,11 @@
 import '../styles/forum.css';
-import { faMessage } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { faMessage } from '@fortawesome/free-regular-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ContentsModel from '../models/contentsModel';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useIsFocused } from '../utils/hooks/use-is-focused-acc';
 import convertDateToString from '../utils/hooks/convertDateToString';
 library.add(faArrowLeft);
@@ -13,17 +13,17 @@ const BOARD_ID = 0;
 
 function AccidentForum() {
   const navigate = useNavigate();
-  const navigateToWrite = () => {
-    navigate('/community/write', {
-      state: {
-        BOARD_ID: BOARD_ID,
-      },
-    });
-  };
   const isFocused = useIsFocused();
 
   useEffect(() => {
-    const wrapper = document.getElementById('wrapper');
+    const navigateToWrite = () => {
+      navigate('/community/write', {
+        state: {
+          BOARD_ID: BOARD_ID,
+        },
+      });
+    };
+    // const wrapper = document.getElementById('wrapper');
     const writeBtn = document.getElementById('writeBtn');
 
     writeBtn.addEventListener('click', () => {
@@ -34,9 +34,8 @@ function AccidentForum() {
     const getData = () => {
       const promise = ContentsModel.gets(BOARD_ID);
       promise.then((data) => {
-        console.log('data', data);
         for (let i = data.length - 1; i >= 0; i--) {
-          const time = convertDateToString(data[i].createdAt);
+          const time = convertDateToString(!data[i].updatedAt ? data[i].createdAt : data[i].updatedAt);
           const nickname = '가나다';
           const dl = document.createElement('dl');
           const dt = document.createElement('dt');
@@ -78,7 +77,7 @@ function AccidentForum() {
       });
     };
     getData();
-  }, [isFocused]);
+  }, [isFocused, navigate]);
   return (
     <div id="wrapper">
       <h1 id="boardname">사건·사고 게시판</h1>

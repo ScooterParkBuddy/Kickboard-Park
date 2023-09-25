@@ -53,7 +53,7 @@ function ContentsView() {
     const ol = document.querySelector('ol');
 
     function removeListAll() {
-      while (ol.hasChildNodes()) {
+      while (ol.firstChild) {
         ol.removeChild(ol.firstChild);
       }
     }

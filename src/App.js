@@ -9,14 +9,18 @@ import WriteContents from './components/writeContents';
 import UpdateContents from './components/updateContents';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Community from './components/community';
+import KakaoLogin from './components/kakao_login';
+
 function App() {
   const geolocation = useGeolocation();
 
-  //const lat = geolocation.latitude;
-  //const lng = geolocation.longitude;
+  // const lat = geolocation.latitude;
+  // const lng = geolocation.longitude;
+
   const lat = 37.5176412282367;
   const lng = 127.041673152472;
   const url = '/parking';
+
   return (
     <BrowserRouter>
       <Navi />
@@ -24,6 +28,7 @@ function App() {
         <Route path="/" element={<Map lat={lat} lng={lng} url={url} />} />
         <Route path="/community" element={<Community />} />
         <Route path="/help" element={<Help />} />
+        <Route path="/kakaologin" element={<KakaoLogin />} />
         <Route path="/community/accident" element={<AccidentForum />} />
         <Route path="/community/general" element={<GeneralForum />} />
         <Route path="/community/write" element={<WriteContents />} />

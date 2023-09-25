@@ -6,6 +6,7 @@ function UpdateContents() {
   const navigate = useNavigate();
   const location = useLocation();
   const prop = { ...location.state };
+
   useEffect(() => {
     const inputTitle = document.getElementById('title');
     const inputContents = document.getElementById('contents');

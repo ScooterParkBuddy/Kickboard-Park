@@ -1,11 +1,10 @@
-/* eslint-disable no-restricted-globals */
-import axios from 'axios';
+import axios from '../lib/postAxios';
 
 async function get(postId) {
   console.log('get');
   const data = await axios({
     method: 'get',
-    url: `/posts/${postId}`,
+    url: `/${postId}`,
   })
     .then((res) => {
       return res.data;
@@ -20,14 +19,14 @@ async function gets(boardId) {
   console.log('gets');
   const data = await axios({
     method: 'get',
-    url: '/posts',
+    url: '',
     params: { boardId: boardId },
   })
     .then((res) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      return error.response.data;
     });
   return data;
 }
@@ -36,7 +35,7 @@ async function post(title, contents, writerId, boardId) {
   console.log('post');
   const status = await axios({
     method: 'post',
-    url: '/posts/new',
+    url: '/new',
     data: {
       title: title,
       contents: contents,
@@ -48,8 +47,7 @@ async function post(title, contents, writerId, boardId) {
       return gets(boardId);
     })
     .catch((error) => {
-      console.log(error);
-      return error;
+      return error.response;
     });
   return status;
   //멤버 확인
@@ -62,7 +60,7 @@ async function update(title, contents, writerId, boardId, postId) {
   console.log('update');
   const status = await axios({
     method: 'put',
-    url: `/posts/${postId}`,
+    url: `/${postId}`,
     data: {
       title: title,
       contents: contents,
@@ -74,8 +72,7 @@ async function update(title, contents, writerId, boardId, postId) {
       return gets(boardId);
     })
     .catch((error) => {
-      console.log(error);
-      return error;
+      return error.response;
     });
   return status;
 }
@@ -83,7 +80,7 @@ async function update(title, contents, writerId, boardId, postId) {
 async function postReply(postId, replyWriterId, contents) {
   const data = await axios({
     method: 'post',
-    url: `/posts/${postId}/comment/new`,
+    url: `/${postId}/comment/new`,
     data: {
       replyWriterId: replyWriterId,
       contents: contents,
@@ -100,13 +97,13 @@ async function postReply(postId, replyWriterId, contents) {
 async function deleteContent(postId, boardId) {
   axios({
     method: 'delete',
-    url: `/posts/${postId}`,
+    url: `/${postId}`,
   })
     .then((res) => {
       gets(boardId);
     })
     .catch((error) => {
-      console.log(error);
+      console.log(error.response);
     });
 }
 

@@ -1,7 +1,6 @@
 import '../styles/community.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import AccidentForum from './accidentForum';
 import ContentsModel from '../models/contentsModel';
 const A_BOARD_ID = 0;
 const G_BOARD_ID = 1;
@@ -21,7 +20,10 @@ function Community() {
 
     const acc_promise = ContentsModel.gets(A_BOARD_ID);
     acc_promise.then((data) => {
-      console.log('data', data);
+      if (data.errorCode === 400) {
+        alert('로그인이 필요합니다');
+        navigate('/');
+      }
       for (let i = data.length - 1; i >= 0; i--) {
         if (i === data.length - 10) {
           break;
@@ -36,7 +38,6 @@ function Community() {
 
     const gen_promise = ContentsModel.gets(G_BOARD_ID);
     gen_promise.then((data) => {
-      console.log('data', data);
       for (let i = data.length - 1; i >= 0; i--) {
         if (i === data.length - 10) {
           break;
