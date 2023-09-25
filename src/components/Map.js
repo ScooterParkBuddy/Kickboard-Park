@@ -39,7 +39,33 @@ const Map = (props) => {
     };
     const map = new naver.maps.Map('map', mapOptions);
 
-    //마커
+    //사고다발구간 원, 위험도에 따른 색 구분 필요
+    let circles = [];
+    axios({
+      method: 'get',
+      url: '/accident',
+    })
+      .then((res) => {
+        console.log(res.data);
+        console.log(res.data.length);
+        console.log(res.data[0].latitude);
+        const data = res.data;
+        for (let i = 0; i < data.length; i++) {
+          const circle = new naver.maps.Circle({
+            map: map,
+            center: new naver.maps.LatLng(data[i].latitude, data[i].longitude),
+            radius: 100,
+            fillColor: 'crimson',
+            fillOpacity: 0.3,
+          });
+          circles.push(circle);
+        }
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
+
+    //주차공간 마커 search에서 값이 넘어올 시, 위치 변경, 반경 2km내의 주차공간만 표시
     let markers = [];
     let infoWindows = [];
     let axi;
@@ -55,7 +81,6 @@ const Map = (props) => {
         .then((res) => {
           for (let i = 0; i < res.data.length; i++) {
             const parking = res.data;
-            console.log(parking);
             const position = new naver.maps.LatLng(parking[i].lat, parking[i].lng);
             const marker = new naver.maps.Marker({
               map: map,
@@ -87,7 +112,6 @@ const Map = (props) => {
         .then((res) => {
           for (let i = 0; i < res.data.length; i++) {
             const parking = res.data;
-            console.log(parking);
             const position = new naver.maps.LatLng(parking[i].latitude, parking[i].longitude);
             const marker = new naver.maps.Marker({
               map: map,
