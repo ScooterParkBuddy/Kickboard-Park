@@ -46,9 +46,6 @@ const Map = (props) => {
       url: '/accident',
     })
       .then((res) => {
-        console.log(res.data);
-        console.log(res.data.length);
-        console.log(res.data[0].latitude);
         const data = res.data;
         for (let i = 0; i < data.length; i++) {
           const circle = new naver.maps.Circle({

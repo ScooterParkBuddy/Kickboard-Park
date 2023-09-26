@@ -1,19 +1,18 @@
 #wrapper {
   background-color: white;
-  z-index: 150;
 }
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  max-height: 20%;
+  max-height: 15%;
   overflow: hidden;
   margin-left: 2%;
   padding: 2% 0 5% 4%;
-  background: url('../assets/images/logo2.png') no-repeat;
-  background-size: 60px;
+  background: url('../assets/images/logo.svg') no-repeat;
+  background-size: 40px;
   background-position: left 30%;
-  line-height: 70px;
+  line-height: 40px;
 }
 .navMenu {
   color: black;

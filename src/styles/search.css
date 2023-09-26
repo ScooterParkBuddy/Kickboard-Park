@@ -27,21 +27,31 @@
   width: 12%;
   border-radius: 30px;
 }
-ul {
-  list-style-type: none;
-  overflow-y: scroll;
+
+#listArea {
   width: 90%;
-  height: 90%;
-  background-color: rgba(255, 255, 255, 0.7);
+  height: auto;
+  background-color: rgb(255, 255, 255);
   padding: 2px;
   margin-left: 10px;
 }
-ul li {
+ul {
   position: relative;
+  list-style-type: none;
   background: rgba(221, 122, 129, 0.1);
+  margin: 3px;
+  padding: 10px 0 1px 10px;
+}
+ul li {
   margin: 3px;
   padding: 10px 0 1px 10px;
 }
 .hidden {
   display: none;
+}
+.btnArea {
+  position: absolute;
+  z-index: 150;
+  bottom: 0;
+  right: 0;
 }
