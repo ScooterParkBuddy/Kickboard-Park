@@ -1,19 +1,20 @@
 #boardname {
   text-align: center;
   position: fixed;
-  top: 5%;
+  top: 10%;
   display: block;
 }
 #writeBtn {
   position: fixed;
-  top: 8%;
+  top: 15%;
   z-index: 100;
 
   right: 1%;
 }
 #wrapper {
+  margin-top: 3%;
   max-height: 100%;
-  overflow: hidden;
+  overflow: scroll;
 }
 dl {
   /*top right bottom left*/
@@ -25,8 +26,8 @@ dl dt {
 }
 #list {
   margin-top: 8%;
-  max-height: 100vh;
-  overflow-y: scroll;
+  max-height: 100%;
+  overflow-y: hidden;
 }
 #sumContent {
   text-indent: -30px;

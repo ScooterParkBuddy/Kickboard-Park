@@ -7,6 +7,7 @@ async function get(postId) {
     url: `/${postId}`,
   })
     .then((res) => {
+      console.log(res.data);
       return res.data;
     })
     .catch((error) => {
@@ -16,7 +17,6 @@ async function get(postId) {
 }
 
 async function gets(boardId) {
-  console.log('gets');
   const data = await axios({
     method: 'get',
     url: '',
@@ -44,16 +44,12 @@ async function post(title, contents, writerId, boardId) {
     },
   })
     .then((res) => {
-      return gets(boardId);
+      return res.status;
     })
     .catch((error) => {
       return error.response;
     });
   return status;
-  //멤버 확인
-  //messageCount 초기값 1 => id로 쓰임
-  //[POST] title, contents, writerId, createdAt?
-  //async await
 }
 
 async function update(title, contents, writerId, boardId, postId) {

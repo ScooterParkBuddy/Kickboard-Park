@@ -1,41 +1,51 @@
 import '../styles/forum.css';
-// import { faMessage } from '@fortawesome/free-regular-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMessage } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ContentsModel from '../models/contentsModel';
-import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import { useIsFocused } from '../utils/hooks/use-is-focused-acc';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useIsFocused } from '../utils/hooks/use-is-focused';
 import convertDateToString from '../utils/hooks/convertDateToString';
-library.add(faArrowLeft);
+import moment from 'moment';
+
 const BOARD_ID = 0;
 
 function AccidentForum() {
-  const navigate = useNavigate();
   const isFocused = useIsFocused();
 
+  const navigate = useNavigate();
+  const navigateToWrite = () => {
+    navigate('/community/write', {
+      state: {
+        BOARD_ID: BOARD_ID,
+      },
+    });
+  };
+
   useEffect(() => {
-    const navigateToWrite = () => {
-      navigate('/community/write', {
-        state: {
-          BOARD_ID: BOARD_ID,
-        },
-      });
-    };
-    // const wrapper = document.getElementById('wrapper');
+    if (isFocused) console.log('Focused!!');
+    const wrapper = document.getElementById('wrapper');
     const writeBtn = document.getElementById('writeBtn');
 
     writeBtn.addEventListener('click', () => {
       navigateToWrite();
     });
     const list = document.getElementById('list');
-
+    while (list.firstChild) {
+      console.log('삭제');
+      list.removeChild(list.firstChild);
+    }
     const getData = () => {
+      console.log('getData');
       const promise = ContentsModel.gets(BOARD_ID);
       promise.then((data) => {
         for (let i = data.length - 1; i >= 0; i--) {
-          const time = convertDateToString(!data[i].updatedAt ? data[i].createdAt : data[i].updatedAt);
+          // const time = data[i].updatedAt
+          //   ? `${convertDateToString(data[i].updatedAt)} (수정됨)`
+          //   : convertDateToString(data[i].createdAt);
+          const time = convertDateToString(data[i].updatedAt ? data[i].updatedAt : data[i].createdAt);
           const nickname = '가나다';
           const dl = document.createElement('dl');
           const dt = document.createElement('dt');
@@ -49,10 +59,20 @@ function AccidentForum() {
           dd.innerText = data[i].contents;
           div.innerText = `${time} | ${nickname}`;
           div.id = 'info';
+
+          //글 클릭 이벤트
           dl.addEventListener('click', async () => {
             const newInfo = ContentsModel.get(data[i].id);
             if (newInfo !== undefined || newInfo !== null) {
               newInfo.then((data) => {
+                const createdAt = moment(data.createdAt, moment.ISO_8601)
+                  .add(9, 'h')
+                  .format('YYYY-MM-DD HH:mm')
+                  .toString();
+                const updatedAt = data.updatedAt
+                  ? moment(data.updatedAt, moment.ISO_8601).add(9, 'h').format('YYYY-MM-DD HH:mm').toString()
+                  : null;
+                console.log('time', createdAt, updatedAt);
                 navigate('/community/view', {
                   state: {
                     id: data.id,
@@ -60,24 +80,25 @@ function AccidentForum() {
                     contents: data.contents,
                     writerId: data.writerId,
                     boardId: data.boardId,
-                    createdAt: data.createdAt,
-                    updatedAt: data.updatedAt,
+                    createdAt: createdAt,
+                    updatedAt: updatedAt,
                     comments: data.comments,
                   },
                 });
               });
             }
           });
+          dd.appendChild(div);
           dl.appendChild(dt);
           dl.appendChild(dd);
-          dd.appendChild(div);
           list.appendChild(dl);
           list.appendChild(hr);
         }
       });
     };
     getData();
-  }, [isFocused, navigate]);
+  }, [isFocused]);
+
   return (
     <div id="wrapper">
       <h1 id="boardname">사건·사고 게시판</h1>

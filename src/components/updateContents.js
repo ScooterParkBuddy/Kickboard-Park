@@ -26,8 +26,8 @@ function UpdateContents() {
       const boardId = boardSelect.value;
       const title = inputTitle.value;
       const contents = inputContents.value;
-
-      ContentsModel.update(title, contents, 1, Number(boardId), prop.postId);
+      const userId = localStorage.getItem('userId');
+      ContentsModel.update(title, contents, userId, Number(boardId), prop.postId);
       if (Number(boardId) === 0) {
         navigate('/community/accident');
       }

@@ -1,7 +1,7 @@
 import moment from 'moment';
 
 function convertDateToString(dateString) {
-  const dateTime = moment(dateString, moment.ISO_8601).millisecond(0);
+  const dateTime = moment(dateString, moment.ISO_8601).add(9, 'h').millisecond(0);
   const now = moment();
   const diff = now.diff(dateTime);
   const calDuration = moment.duration(diff);

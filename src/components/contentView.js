@@ -1,13 +1,18 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import moment from 'moment';
+import moment, { ISO_8601 } from 'moment';
 import '../styles/contentView.css';
 import ContentsModel from '../models/contentsModel';
+import LoginModel from '../models/loginModel';
+import loginAxios from '../lib/loginAxios';
+
+const HIDDEN_CLASS = 'hidden';
 
 function ContentsView() {
   const navigate = useNavigate();
   const location = useLocation();
   const prop = { ...location.state };
+  const userId = localStorage.getItem('userId');
 
   useEffect(() => {
     const menuBtn = document.getElementById('btn');
@@ -16,8 +21,8 @@ function ContentsView() {
     const deleteBtn = document.getElementById('deleteBtn');
 
     menuBtn.addEventListener('click', () => {
-      hiddenArea.classList.toggle('hidden');
-      if (hiddenArea.className !== 'hidden') {
+      hiddenArea.classList.toggle(HIDDEN_CLASS);
+      if (hiddenArea.className !== HIDDEN_CLASS) {
         updateBtn.addEventListener('click', () => {
           navigate('/community/update', {
             state: {
@@ -33,15 +38,18 @@ function ContentsView() {
           ContentsModel.deleteContent(prop.id, prop.boardId);
           if (prop.boardId === 0) {
             navigate('/community/accident');
-            window.location.reload();
           }
           if (prop.boardId === 1) {
             navigate('/community/general');
-            window.location.reload();
           }
         });
       }
     });
+
+    if (prop.writerId !== Number(localStorage.getItem('userId'))) {
+      console.log('id false', prop.writerId, localStorage.getItem('userId'));
+      menuBtn.classList.add(HIDDEN_CLASS);
+    }
 
     const wrapper = document.querySelector('div');
     const h1 = document.getElementById('titleArea');
@@ -60,13 +68,14 @@ function ContentsView() {
 
     function save(info) {
       h1.innerText = info.title;
-      const time = moment(info.createdAt).format('YYYY-MM-DD HH:mm');
+      const time = info.updatedAt ? `${info.updatedAt} (수정됨)` : info.createdAt;
       infoArea.innerText = `${time} | ${info.id}`;
       contentsArea.innerText = info.contents;
       for (let i = 0; i < info.comments.length; i++) {
         const li = document.createElement('li');
         const now = info.comments[i];
-        li.innerText = `${now.contents} | ${now.replyMemberId} | ${now.createdAt}`;
+        const commentCreatedAt = moment(now.createdAt, ISO_8601).add(9, 'h').format('YYYY-MM-DD HH:mm').toString();
+        li.innerText = `${now.contents} | ${now.replyMemberId} | ${commentCreatedAt}`;
         ol.appendChild(li);
       }
     }
@@ -74,7 +83,7 @@ function ContentsView() {
     writeReply.addEventListener('submit', (e) => {
       e.preventDefault();
       removeListAll();
-      const status = ContentsModel.postReply(prop.id, 1, reply.value);
+      const status = ContentsModel.postReply(prop.id, userId, reply.value);
       status.then((data) => {
         save(data);
       });
@@ -83,7 +92,7 @@ function ContentsView() {
   }, []);
 
   return (
-    <div style={{ marginTop: 70 }}>
+    <div style={{ marginTop: 80 }}>
       <div id="contentArea">
         <button id="btn"></button>
         <span id="hidden" className="hidden">

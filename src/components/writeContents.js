@@ -22,14 +22,15 @@ function WriteContents() {
       const boardId = boardSelect.value;
       const title = inputTitle.value;
       const contents = inputContents.value;
+      const writerId = localStorage.getItem('userId');
 
-      ContentsModel.post(title, contents, 1, Number(boardId));
-
+      ContentsModel.post(title, contents, writerId, Number(boardId));
+      //navigate(-1);
       if (Number(boardId) === 0) {
-        navigate('/community/accident');
+        navigate(-1);
       }
       if (Number(boardId) === 1) {
-        navigate('/community/general');
+        navigate(-1);
       }
     });
   }, []);
