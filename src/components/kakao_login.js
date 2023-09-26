@@ -20,10 +20,8 @@ function KaKaoLogin() {
     })
       .then((res) => {
         const accessToken = res.data.access_token;
-        console.log('kakao', accessToken);
+        console.log('kakao', res.data);
         if (res.status === 200) {
-          setPostHeaders(accessToken);
-          setLoginHeaders(accessToken);
           LoginModel.onLoginSuccess(accessToken);
           navigate('/');
         }

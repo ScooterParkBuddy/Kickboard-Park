@@ -1,9 +1,9 @@
 import loginAxios from '../lib/loginAxios';
 import { setPostHeaders } from '../lib/postAxios';
 import { setLoginHeaders } from '../lib/loginAxios';
+import axios from 'axios';
 
-// const JWT_EXPIRRY_TIME = 12 * 3600 * 1000;
-const JWT_EXPIRRY_TIME = 12 * 1000;
+const JWT_EXPIRRY_TIME = 12 * 3600 * 1000; //accessToken 만료시간-> 밀리초
 
 async function isSameId(writerId) {
   const data = await loginAxios({
@@ -26,8 +26,21 @@ async function onLoginSuccess(accessToken) {
   setLoginHeaders(accessToken);
 
   localStorage.setItem('accessToken', accessToken);
-
-  setTimeout(getRefreshToken, JWT_EXPIRRY_TIME - 100000);
+  if (localStorage.getItem('userId') === null || localStorage.getItem('userId') === undefined) {
+    await loginAxios({
+      method: 'get',
+      url: '/my',
+    })
+      .then((res) => {
+        const userId = res.data.userId;
+        localStorage.setItem('userId', userId);
+      })
+      .catch((error) => {
+        return error.response;
+      });
+  }
+  //만료 시간 1분 전, 갱신
+  setTimeout(getRefreshToken, JWT_EXPIRRY_TIME - 60000);
 }
 
 async function getRefreshToken() {
@@ -37,28 +50,27 @@ async function getRefreshToken() {
   })
     .then((res) => {
       const refreshToken = res.data.refreshToken;
-      setLoginHeaders(refreshToken);
-      getAccessToken();
+      getAccessToken(refreshToken);
     })
     .catch((error) => {
-      console.log(error);
+      console.log('getRefresh', error);
     });
 }
 
-async function getAccessToken() {
-  const data = await loginAxios({
+async function getAccessToken(refreshToken) {
+  const data = await axios({
     method: 'get',
-    url: '/refresh',
+    url: '/kakao/refresh',
+    headers: {
+      Authorization: `Bearer ${refreshToken}`,
+    },
   })
     .then((res) => {
       const accessToken = res.data.access_token;
-      console.log('ref acc', accessToken);
-      setPostHeaders(accessToken);
-      setLoginHeaders(accessToken);
       onLoginSuccess(accessToken);
     })
     .catch((error) => {
-      return error.response;
+      console.log('getAccessToken', error);
     });
   return data;
 }
