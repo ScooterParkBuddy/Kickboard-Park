@@ -1,11 +1,6 @@
-import axios from 'axios';
-import postAxios from '../lib/postAxios';
 import loginAxios from '../lib/loginAxios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import LoginModel from '../models/loginModel';
-import { setPostHeaders } from '../lib/postAxios';
-import { setLoginHeaders } from '../lib/loginAxios';
 import Loading from './loading';
 import Modal from './modal';
 
@@ -15,7 +10,6 @@ function KaKaoLogin() {
   const getModal = (value) => {
     setModal(value);
   };
-  const navigate = useNavigate();
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
     loginAxios({

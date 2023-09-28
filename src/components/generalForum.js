@@ -1,20 +1,13 @@
 import '../styles/forum.css';
-import { faMessage } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import ContentsModel from '../models/contentsModel';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { useIsFocused } from '../utils/hooks/use-is-focused';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import convertDateToString from '../utils/hooks/convertDateToString';
 import moment from 'moment';
 
 const BOARD_ID = 1;
 
 function GeneralForum() {
-  const isFocused = useIsFocused();
-
   const navigate = useNavigate();
   const navigateToWrite = () => {
     navigate('/community/write', {
@@ -25,35 +18,35 @@ function GeneralForum() {
   };
 
   useEffect(() => {
-    if (isFocused) console.log('Focused!!');
-    const wrapper = document.getElementById('wrapper');
     const writeBtn = document.getElementById('writeBtn');
 
     writeBtn.addEventListener('click', () => {
       navigateToWrite();
     });
     const list = document.getElementById('list');
-
+    while (list.firstChild) {
+      console.log('삭제');
+      list.removeChild(list.firstChild);
+    }
     const getData = () => {
       console.log('getData');
       const promise = ContentsModel.gets(BOARD_ID);
       promise.then((data) => {
         for (let i = data.length - 1; i >= 0; i--) {
           const time = convertDateToString(data[i].updatedAt ? data[i].updatedAt : data[i].createdAt);
-          const nickname = '가나다';
           const dl = document.createElement('dl');
           const dt = document.createElement('dt');
           const dd = document.createElement('dd');
+          const info = document.createElement('dd');
           const hr = document.createElement('hr');
           const div = document.createElement('div');
-          // const fontawesome = document.createElement('FontAwesomeIcon');
 
           dt.innerText = data[i].title;
           dd.id = 'sumContent';
           dd.innerText = data[i].contents;
-          div.innerText = `${time} | ${nickname}`;
+          div.innerText = `${time}`;
           div.id = 'info';
-
+          info.id = 'infoArea';
           //글 클릭 이벤트
           dl.addEventListener('click', async () => {
             const newInfo = ContentsModel.get(data[i].id);
@@ -63,11 +56,12 @@ function GeneralForum() {
                   .add(9, 'h')
                   .format('YYYY-MM-DD HH:mm')
                   .toString();
-                const updatedAt = data.updatedAt
-                  ? moment(data.updatedAt, moment.ISO_8601).add(9, 'h').format('YYYY-MM-DD HH:mm').toString()
-                  : null;
+                const updatedAt =
+                  data.updatedAt !== data.createdAt && data.updatedAt
+                    ? moment(data.updatedAt, moment.ISO_8601).add(9, 'h').format('YYYY-MM-DD HH:mm')
+                    : null;
                 console.log('time', createdAt, updatedAt);
-                navigate('/community/view', {
+                navigate(`/community/view/${data.id}`, {
                   state: {
                     id: data.id,
                     title: data.title,
@@ -82,18 +76,20 @@ function GeneralForum() {
               });
             }
           });
-          dd.appendChild(div);
+          info.appendChild(div);
           dl.appendChild(dt);
           dl.appendChild(dd);
+          dl.appendChild(info);
           list.appendChild(dl);
           list.appendChild(hr);
         }
       });
     };
     getData();
-  }, [isFocused]);
+  }, []);
+
   return (
-    <div id="wrapper">
+    <div id="forumWrapper">
       <h1 id="boardname">자유게시판</h1>
       <button type="button" id="writeBtn">
         글쓰기

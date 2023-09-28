@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import '../styles/writeContent.css';
 function UpdateContents() {
-  const navigate = useNavigate();
   const location = useLocation();
   const prop = { ...location.state };
 

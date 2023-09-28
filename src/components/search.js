@@ -5,8 +5,6 @@ import Loading from './loading';
 
 const HIDDEN_CLASS = 'hidden';
 function Search(props) {
-  // const lat = new Array();
-  // const lng = new Array();
   const [loading, setLoading] = useState(false);
 
   const setLat = (num) => {

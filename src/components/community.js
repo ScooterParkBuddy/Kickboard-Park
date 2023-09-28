@@ -2,7 +2,6 @@ import '../styles/community.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
-import Modal from './modal';
 const A_BOARD_ID = 0;
 const G_BOARD_ID = 1;
 

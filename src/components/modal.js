@@ -5,7 +5,6 @@ import '../styles/modal.css';
 import axios from 'axios';
 
 function Modal(props) {
-  const navigate = useNavigate();
   useEffect(() => {
     const nickname = document.getElementById('nickname');
     const save = document.getElementById('save');

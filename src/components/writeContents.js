@@ -1,9 +1,8 @@
 import '../styles/writeContent.css';
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 function WriteContents() {
-  const navigate = useNavigate();
   const location = useLocation();
   const promise = { ...location.state };
   useEffect(() => {
@@ -32,7 +31,6 @@ function WriteContents() {
         const writerId = localStorage.getItem('userId');
 
         ContentsModel.post(title, contents, writerId, Number(boardId));
-        //navigate(-1);
         if (Number(boardId) === 0) {
           window.location.replace('/community/accident');
         }
