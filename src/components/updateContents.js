@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import '../styles/writeContent.css';
 function UpdateContents() {
   const navigate = useNavigate();
   const location = useLocation();
   const prop = { ...location.state };
 
   useEffect(() => {
-    const inputTitle = document.getElementById('title');
-    const inputContents = document.getElementById('contents');
+    const inputTitle = document.getElementById('writeTitle');
+    const inputContents = document.getElementById('writeContents');
     const writeForm = document.getElementById('writeForm');
     const boardSelect = document.getElementById('boardId');
     const option = document.querySelectorAll('option');
@@ -29,28 +29,28 @@ function UpdateContents() {
       const userId = localStorage.getItem('userId');
       ContentsModel.update(title, contents, userId, Number(boardId), prop.postId);
       if (Number(boardId) === 0) {
-        navigate('/community/accident');
+        window.location.replace('/community/accident');
       }
       if (Number(boardId) === 1) {
-        navigate('/community/general');
+        window.location.replace('/community/general');
       }
     });
   }, []);
   return (
-    <>
-      <div style={{ height: 100 }} />
-      <div>글 수정하기</div>
+    <div id="writeWraper">
+      <h2 id="viewTitle">글 수정하기</h2>
       <form id="writeForm">
         <select id="boardId">
           <option value="none">게시판을 선택해 주세요</option>
           <option value="0">사건·사고 게시판</option>
           <option value="1">자유 게시판</option>
         </select>
-        <input id="title" type="text" placeholder="제목을 입력해 주세요" />
-        <input id="contents" type="text" placeholder="내용을 입력해 주세요" />
-        <input type="submit" value="수정" />
+        <input id="writeTitle" type="text" placeholder="제목을 입력해 주세요" />
+        <br />
+        <textarea id="writeContents" type="text" placeholder="내용을 입력해 주세요" />
+        <input type="submit" id="complete" value="수정" />
       </form>
-    </>
+    </div>
   );
 }
 export default UpdateContents;

@@ -1,3 +1,4 @@
+import '../styles/writeContent.css';
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -6,8 +7,8 @@ function WriteContents() {
   const location = useLocation();
   const promise = { ...location.state };
   useEffect(() => {
-    const inputTitle = document.getElementById('title');
-    const inputContents = document.getElementById('contents');
+    const inputTitle = document.getElementById('writeTitle');
+    const inputContents = document.getElementById('writeContents');
     const writeForm = document.getElementById('writeForm');
     const boardSelect = document.getElementById('boardId');
     const option = document.querySelectorAll('option');
@@ -22,33 +23,39 @@ function WriteContents() {
       const boardId = boardSelect.value;
       const title = inputTitle.value;
       const contents = inputContents.value;
-      const writerId = localStorage.getItem('userId');
-
-      ContentsModel.post(title, contents, writerId, Number(boardId));
-      //navigate(-1);
-      if (Number(boardId) === 0) {
-        navigate(-1);
+      if (title === null || title === '' || title === undefined) {
+        alert('제목을 작성해 주세요');
       }
-      if (Number(boardId) === 1) {
-        navigate(-1);
+      if (contents === null || contents === '' || contents === undefined) {
+        alert('내용을 입력해 주세요');
+      } else {
+        const writerId = localStorage.getItem('userId');
+
+        ContentsModel.post(title, contents, writerId, Number(boardId));
+        //navigate(-1);
+        if (Number(boardId) === 0) {
+          window.location.replace('/community/accident');
+        }
+        if (Number(boardId) === 1) {
+          window.location.replace('/community/general');
+        }
       }
     });
   }, []);
   return (
-    <>
-      <div style={{ height: 100 }} />
-      <div>글 작성하기</div>
+    <div id="writeWraper">
+      <h2 id="viewTitle">글 작성하기</h2>
       <form id="writeForm">
         <select id="boardId">
           <option value="none">게시판을 선택해 주세요</option>
           <option value="0">사건·사고 게시판</option>
           <option value="1">자유 게시판</option>
         </select>
-        <input id="title" type="text" placeholder="제목을 입력해 주세요" />
-        <input id="contents" type="text" placeholder="내용을 입력해 주세요" />
-        <input type="submit" value="작성 완료" />
+        <input id="writeTitle" type="text" placeholder="제목을 입력해 주세요" />
+        <textarea id="writeContents" type="text" placeholder="내용을 입력해 주세요" />
+        <input type="submit" id="complete" value="작성 완료" />
       </form>
-    </>
+    </div>
   );
 }
 export default WriteContents;

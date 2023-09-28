@@ -1,28 +1,28 @@
 #wrapper {
   background-color: white;
+  height: 100px;
 }
 .navbar {
   position: fixed;
   top: 0;
   width: 100%;
-  max-height: 15%;
   overflow: hidden;
   margin-left: 2%;
-  padding: 2% 0 5% 4%;
+  padding: 2% 0 2% 5%;
   background: url('../assets/images/logo.svg') no-repeat;
-  background-size: 40px;
-  background-position: left 30%;
-  line-height: 40px;
+  background-size: 50px;
+  background-position: left 10px;
 }
 .navMenu {
   color: black;
-  margin-top: 20px;
   padding-left: 40px;
   font-size: xx-large;
+  line-height: 60px;
   text-decoration: none;
 }
 .active {
-  color: rgb(255, 116, 139);
+  color: #ff7f00;
+  font-weight: bold;
 }
 #my {
   float: right;
@@ -38,13 +38,17 @@
   border: none;
 }
 #myBtn {
-  background: url('../assets/images/bars-solid.svg') no-repeat;
-  background-size: 80px;
   width: 80px;
-  height: 800px;
+  height: 50px;
   vertical-align: middle;
+  font-size: large;
+  background-color: transparent;
   border: none;
 }
 .hidden {
   display: none;
+}
+#editNick {
+  background: url('../assets/images/xmark-solid.svg') no-repeat;
+  background-size: 20px;
 }

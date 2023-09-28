@@ -53,7 +53,7 @@ const Map = (props) => {
             center: new naver.maps.LatLng(data[i].latitude, data[i].longitude),
             radius: 100,
             fillColor: 'crimson',
-            fillOpacity: 0.3,
+            fillOpacity: 0.2,
           });
           circles.push(circle);
         }

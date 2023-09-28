@@ -1,0 +1,46 @@
+#writeWraper {
+  max-height: 90%;
+  overflow-y: scroll;
+}
+
+#viewTitle {
+  margin-left: 5%;
+}
+#complete {
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  top: 130px;
+  margin: 0 2% 0 0;
+  width: 80px;
+  height: 30px;
+  border-radius: 30px;
+  border: none;
+  color: white;
+  font-weight: bold;
+  background-color: rgb(255, 128, 0);
+}
+#writeForm {
+  padding: 3%;
+  text-align: center;
+}
+#boardId {
+  margin-left: 2%;
+  padding: 1%;
+  width: 20%;
+  font-size: large;
+}
+
+#writeTitle {
+  padding: 1%;
+  margin: 0 0 0 2%;
+  width: 60%;
+  font-size: large;
+}
+#writeContents {
+  padding: 1%;
+  margin: 2% 2% 0 2%;
+  width: 90%;
+  height: 70vh;
+  font-size: medium;
+}
