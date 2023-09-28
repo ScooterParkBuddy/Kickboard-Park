@@ -2,6 +2,7 @@ import '../styles/community.css';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
+import Modal from './modal';
 const A_BOARD_ID = 0;
 const G_BOARD_ID = 1;
 
@@ -55,11 +56,13 @@ function Community() {
     <div id="community">
       <div>
         <h1 onClick={navigateToAccident}>🚨 사건·사고 게시판</h1>
-        <div id="accidentForum" />
+        <hr className="commHr" />
+        <div id="accidentForum"></div>
       </div>
       <div id="generalArea">
         <h1 onClick={navigateToGeneral}>🌟 자유게시판</h1>
-        <div id="generalForum" />
+        <hr className="commHr" />
+        <div id="generalForum"></div>
       </div>
     </div>
   );

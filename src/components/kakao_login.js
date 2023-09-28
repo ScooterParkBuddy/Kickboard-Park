@@ -1,13 +1,20 @@
 import axios from 'axios';
 import postAxios from '../lib/postAxios';
 import loginAxios from '../lib/loginAxios';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LoginModel from '../models/loginModel';
 import { setPostHeaders } from '../lib/postAxios';
 import { setLoginHeaders } from '../lib/loginAxios';
+import Loading from './loading';
+import Modal from './modal';
 
 function KaKaoLogin() {
+  const [loading, setLoading] = useState(true);
+  const [modal, setModal] = useState(false);
+  const getModal = (value) => {
+    setModal(value);
+  };
   const navigate = useNavigate();
   useEffect(() => {
     const code = new URL(window.location.href).searchParams.get('code');
@@ -20,18 +27,13 @@ function KaKaoLogin() {
     })
       .then((res) => {
         const accessToken = res.data.access_token;
-        console.log('kakao', res.data);
         if (res.status === 200) {
           LoginModel.onLoginSuccess(accessToken);
-          navigate('/');
+          setLoading(false);
         }
       })
       .catch((error) => console.log('err', error));
   }, []);
-  return (
-    <div>
-      <h1>Kakao Login ing</h1>
-    </div>
-  );
+  return <div>{loading ? <Loading /> : <Modal getModal={getModal} modal={modal} />}</div>;
 }
 export default KaKaoLogin;

@@ -56,22 +56,7 @@ async function getRefreshToken() {
       console.log('getRefresh', error);
     });
 }
-async function getNickname(userId) {
-  await loginAxios({
-    method: 'get',
-    url: '/my/nickname',
-    params: {
-      userId: userId,
-    },
-  })
-    .then((res) => {
-      console.log('data', res.data);
-      return res.data;
-    })
-    .catch((error) => {
-      console.log(error.response);
-    });
-}
+
 async function getAccessToken(refreshToken) {
   const data = await axios({
     method: 'get',
@@ -93,7 +78,6 @@ async function getAccessToken(refreshToken) {
 const LoginModel = {
   isSameId,
   getRefreshToken,
-  getNickname,
   onLoginSuccess,
 };
 export default LoginModel;
