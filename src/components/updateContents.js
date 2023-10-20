@@ -27,12 +27,7 @@ function UpdateContents() {
       const contents = inputContents.value;
       const userId = localStorage.getItem('userId');
       ContentsModel.update(title, contents, userId, Number(boardId), prop.postId);
-      if (Number(boardId) === 0) {
-        window.location.replace('/community/accident');
-      }
-      if (Number(boardId) === 1) {
-        window.location.replace('/community/general');
-      }
+      window.location.replace('/community');
     });
   }, []);
   return (

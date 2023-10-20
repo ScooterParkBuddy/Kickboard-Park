@@ -1,44 +1,6 @@
 #community {
-  width: 100%;
+  max-width: 100%;
   height: 96vh;
-  overflow: scroll;
-}
-h1 {
-  margin: 1.5%;
-}
-.commHr {
-  width: 90%;
-  margin-left: 0;
-}
-#accidentForum {
-  width: 80%;
-  border: none;
-  overflow-y: hidden;
-  margin-left: 2%;
-  max-height: 33vh;
-  padding: 2%;
-  margin-bottom: 5%;
-}
-#generalForum {
-  width: 80%;
-  border: none;
-  overflow-y: hidden;
-  margin-left: 2%;
-  max-height: 33vh;
-  padding: 2%;
-  margin-bottom: 5%;
-}
-#generalArea {
-  padding-top: 3%;
-  padding-bottom: 100px;
-}
-#titleList {
-  margin: 1.5% 1.5% 2% 0;
-  font-weight: bold;
-  color: gray;
-  list-style-type: none;
-  width: 300px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin: 0 auto;
+  display: flex;
 }

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router';
 import '../styles/modal.css';
 import axios from 'axios';
 
-function Modal(props) {
+function Modal({ getModal }) {
   useEffect(() => {
     const nickname = document.getElementById('nickname');
     const save = document.getElementById('save');
@@ -20,9 +20,8 @@ function Modal(props) {
       if (nickname.value.length < 2) {
         alert('닉네임을 2글자 이상 입력해 주세요');
       } else {
-        console.log(nickname.value);
         localStorage.setItem('nickname', nickname.value);
-        props.getModal(false);
+        getModal(false);
         axios({
           method: 'post',
           url: '/nickname',
@@ -40,7 +39,7 @@ function Modal(props) {
           .catch((error) => {
             console.log(error);
           });
-        window.location.replace('/');
+        window.location.replace('/community');
       }
     });
   }, []);

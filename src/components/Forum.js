@@ -5,32 +5,16 @@ import { useEffect } from 'react';
 import convertDateToString from '../utils/hooks/convertDateToString';
 import moment from 'moment';
 
-const BOARD_ID = 0;
-
-function AccidentForum() {
+function Forum({ boardId }) {
   const navigate = useNavigate();
-  const navigateToWrite = () => {
-    navigate('/community/write', {
-      state: {
-        BOARD_ID: BOARD_ID,
-      },
-    });
-  };
 
   useEffect(() => {
-    const writeBtn = document.getElementById('writeBtn');
-
-    writeBtn.addEventListener('click', () => {
-      navigateToWrite();
-    });
     const list = document.getElementById('list');
     while (list.firstChild) {
-      console.log('삭제');
       list.removeChild(list.firstChild);
     }
     const getData = () => {
-      console.log('getData');
-      const promise = ContentsModel.gets(BOARD_ID);
+      const promise = ContentsModel.gets(boardId);
       promise.then((data) => {
         for (let i = data.length - 1; i >= 0; i--) {
           const time = convertDateToString(data[i].updatedAt ? data[i].updatedAt : data[i].createdAt);
@@ -38,9 +22,10 @@ function AccidentForum() {
           const dt = document.createElement('dt');
           const dd = document.createElement('dd');
           const info = document.createElement('dd');
-          const hr = document.createElement('hr');
+          const hr = document.createElement('div');
           const div = document.createElement('div');
 
+          hr.id = 'forumhr';
           dt.innerText = data[i].title;
           dd.id = 'sumContent';
           dd.innerText = data[i].contents;
@@ -61,7 +46,6 @@ function AccidentForum() {
                   data.updatedAt !== data.createdAt && data.updatedAt
                     ? moment(data.updatedAt, moment.ISO_8601).add(9, 'h').format('YYYY-MM-DD HH:mm')
                     : null;
-                console.log('time', createdAt, updatedAt);
                 navigate(`/community/view/${data.id}`, {
                   state: {
                     id: data.id,
@@ -87,16 +71,12 @@ function AccidentForum() {
       });
     };
     getData();
-  }, []);
+  }, [boardId]);
 
   return (
     <div id="forumWrapper">
-      <h1 id="boardname">사건·사고 게시판</h1>
-      <button type="button" id="writeBtn">
-        글쓰기
-      </button>
       <div id="list" />
     </div>
   );
 }
-export default AccidentForum;
+export default Forum;

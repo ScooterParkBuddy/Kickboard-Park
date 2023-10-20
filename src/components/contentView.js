@@ -1,9 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import moment, { ISO_8601 } from 'moment';
 import '../styles/contentView.css';
 import ContentsModel from '../models/contentsModel';
-import LoginModel from '../models/loginModel';
 import loginAxios from '../lib/loginAxios';
 const HIDDEN_CLASS = 'hidden';
 
@@ -57,12 +56,7 @@ function ContentsView() {
             });
             deleteBtn.addEventListener('click', () => {
               ContentsModel.deleteContent(data.id, data.boardId);
-              if (prop.boardId === 0) {
-                window.location.replace('/community/accident');
-              }
-              if (prop.boardId === 1) {
-                window.location.replace('/community/general');
-              }
+              window.location.replace('/community');
             });
           }
         });

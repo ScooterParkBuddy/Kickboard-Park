@@ -15,6 +15,9 @@ function WriteContents() {
       if (Number(option[i].value) === promise.BOARD_ID) {
         option[i].selected = true;
       }
+      if (Number(option[i].value) !== promise.BOARD_ID) {
+        option[i].disabled = true;
+      }
     }
 
     writeForm.addEventListener('submit', (e) => {
@@ -31,15 +34,10 @@ function WriteContents() {
         const writerId = localStorage.getItem('userId');
 
         ContentsModel.post(title, contents, writerId, Number(boardId));
-        if (Number(boardId) === 0) {
-          window.location.replace('/community/accident');
-        }
-        if (Number(boardId) === 1) {
-          window.location.replace('/community/general');
-        }
+        window.location.replace('/community');
       }
     });
-  }, []);
+  }, [promise]);
   return (
     <div id="writeWraper">
       <h2 id="viewTitle">글 작성하기</h2>
