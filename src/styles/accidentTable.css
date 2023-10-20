@@ -1,0 +1,30 @@
+table {
+  position: absolute;
+  bottom: 10%;
+  right: 1%;
+  z-index: 150;
+  border-collapse: collapse;
+  background-color: whitesmoke;
+  box-shadow: 2px 2px 2px gray;
+}
+caption {
+  font-size: small;
+}
+th,
+td {
+  width: 50px;
+  height: 25px;
+  text-align: center;
+  border: 1px solid #000;
+
+  vertical-align: middle;
+}
+#td1 {
+  background-color: rgba(255, 217, 0, 0.3);
+}
+#td2 {
+  background-color: rgba(255, 140, 0, 0.3);
+}
+#td3 {
+  background-color: rgba(255, 99, 71, 0.3);
+}
