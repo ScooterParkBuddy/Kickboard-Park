@@ -4,7 +4,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { EditIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
-import Modal from './modal';
+import Modal from './Modal';
 
 library.add(faUser);
 
@@ -21,13 +21,13 @@ function Profile() {
     });
   }, []);
   return (
-    <div class="box">
+    <div className="box">
       {modal ? <Modal getModal={getModal} modal={modal} /> : null}
-      <div class="photoBox">
-        <FontAwesomeIcon icon="user" color="black" size="xl" class="profilePhoto" />
+      <div className="photoBox">
+        <FontAwesomeIcon icon="user" color="black" size="xl" className="profilePhoto" />
       </div>
       <div id="nicknameArea">
-        <p class="profileNickname">{nickname}</p>
+        <p className="profileNickname">{nickname}</p>
         <EditIcon id="sideeditBtn" />
       </div>
     </div>

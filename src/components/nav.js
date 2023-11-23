@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import '../styles/nav.css';
 import { useEffect, useState } from 'react';
-import Loading from './loading';
+import Loading from './Loading';
 
 const KAKAO_LOGIN_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=http://localhost:3000/kakaologin`;
 
