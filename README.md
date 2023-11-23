@@ -2,12 +2,16 @@
 
 <p align="center"><img src="https://github.com/ScooterParkBuddy/Kickboard-Park/assets/126869993/7994b49b-d66e-4c4d-a3f3-3d4d99b21343" style="width: 80%" /></p>
 
+</br></br></br>
 
-
-구현 기능
+### 사용자 요구 사항
 ---
-<p align="center"><img src="https://github.com/ScooterParkBuddy/Kickboard-Park/assets/126869993/6d6d3a14-92e8-4b0d-9ad9-f683ef07a92e" style="width: 50%" /> </p>
+<p align="center"><img src="https://github.com/ScooterParkBuddy/Kickboard-Park/assets/126869993/0aade0b0-5c8b-4a8a-8a8a-3a60b939cd05" style="width: 60%" /> </p>
 
+</br></br></br>
+
+### 구현 기능
+---
 - `사용자의 현재 위치 저장`
 
 ```javascript
