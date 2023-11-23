@@ -1,8 +1,8 @@
 import loginAxios from '../lib/loginAxios';
 import { useEffect, useState } from 'react';
 import LoginModel from '../models/loginModel';
-import Loading from './loading';
-import Modal from './modal';
+import Loading from './Loading';
+import Modal from './Modal';
 
 function KaKaoLogin() {
   const [loading, setLoading] = useState(true);
