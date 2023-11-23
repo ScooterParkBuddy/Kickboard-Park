@@ -74,10 +74,28 @@ async function getAccessToken(refreshToken) {
     });
   return data;
 }
+async function getNickName(userId) {
+  const data = await loginAxios({
+    method: 'get',
+    url: '/kakao/my/nickname',
+    params: {
+      userId: userId,
+    },
+  })
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log('getNickName', error);
+      return '';
+    });
+  return data;
+}
 
 const LoginModel = {
   isSameId,
   getRefreshToken,
   onLoginSuccess,
+  getNickName,
 };
 export default LoginModel;
