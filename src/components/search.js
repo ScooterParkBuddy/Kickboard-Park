@@ -1,30 +1,23 @@
 import '../styles/search.css';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Loading from './loading';
+import Loading from './Loading';
 
 const HIDDEN_CLASS = 'hidden';
-function Search(props) {
+function Search({ getLat, getLng, getUrl }) {
   const [loading, setLoading] = useState(false);
 
-  const setLat = (num) => {
-    props.getLat(num);
-  };
-  const setLng = (num) => {
-    props.getLng(num);
-  };
-  const setUrl = (num) => {
-    props.getUrl(num);
-  };
   let longitude;
   let latitude;
   const url = '/search';
 
-  function propsFunc(lat, lng) {
-    setLat(lat);
-    setLng(lng);
-    setUrl(url);
-  }
+  const propsFunc = (lat, lng) => {
+    getLat(lat);
+    getLng(lng);
+    getUrl(url);
+    console.log(lat, lng, url);
+  };
+
   useEffect(() => {
     const searchForm = document.getElementById('searchForm');
     const searchInput = document.getElementById('searchword');
@@ -48,6 +41,9 @@ function Search(props) {
     const distance = document.getElementById('distance');
     const dayAvg = document.getElementById('dayAvg');
 
+    // listArea.addEventListener('click', (e) => {
+    //   handleClickArea();
+    // });
     function convertMinutes(time) {
       if (time.indexOf('시간') != -1) {
         const first = time.split('시간');
@@ -69,7 +65,7 @@ function Search(props) {
       estimateResultArea.classList.add(HIDDEN_CLASS);
     });
 
-    function estimateBtnClick(estimateArea, startForm, destinationForm) {
+    const estimateBtnClick = (estimateArea, startForm, destinationForm) => {
       estimateArea.classList.remove(HIDDEN_CLASS);
       searchForm.classList.add(HIDDEN_CLASS);
       listArea.classList.add(HIDDEN_CLASS);
@@ -82,16 +78,18 @@ function Search(props) {
         e.preventDefault();
         setEstimate(e, destinationForm.firstChild.value);
       });
-    }
-    function keywordSearch(value) {
+    };
+    const keywordSearch = (value) => {
       axios({
         method: 'get',
-        url: 'search/keyword',
+        url: '/search/keyword',
         params: {
           keyword: `'${value}'`,
         },
       })
         .then((res) => {
+          listArea.classList.remove(HIDDEN_CLASS);
+
           const result = res.data;
           placeName.innerText = result.placeName;
           address.innerText = result.address;
@@ -101,16 +99,14 @@ function Search(props) {
           listInfo.addEventListener('click', (e) => {
             propsFunc(latitude, longitude, url);
           });
-
-          listArea.classList.remove(HIDDEN_CLASS);
         })
         .catch((error) => {
           alert('정확한 명칭을 입력해 주세요');
           console.log(error.response);
         });
-    }
+    };
 
-    function setEstimate(e, value) {
+    const setEstimate = (e, value) => {
       e.preventDefault();
       keywordSearch(value);
 
@@ -125,7 +121,7 @@ function Search(props) {
         estimateBtnClick(estimateArea, startForm, destinationForm);
       });
       ul.classList.remove(HIDDEN_CLASS);
-    }
+    };
 
     searchForm.addEventListener('submit', (e) => {
       setEstimate(e, searchInput.value);
@@ -143,15 +139,17 @@ function Search(props) {
             start: startInput.value,
             destination: destinationInput.value,
           },
-        }).then((res) => {
-          time.innerText = res.data.time;
-          distance.innerText = res.data.distance;
-          const timeToMinutes = convertMinutes(res.data.time);
-          const day = dayCalculate(timeToMinutes);
-          dayAvg.innerText = `주간 평균: ${day.toLocaleString()}원`;
-          setLoading(false);
-          estimateResultArea.classList.remove(HIDDEN_CLASS);
-        });
+        })
+          .then((res) => {
+            time.innerText = res.data.time;
+            distance.innerText = res.data.distance;
+            const timeToMinutes = convertMinutes(res.data.time);
+            const day = dayCalculate(timeToMinutes);
+            dayAvg.innerText = `주간 평균: ${day.toLocaleString()}원`;
+            setLoading(false);
+            estimateResultArea.classList.remove(HIDDEN_CLASS);
+          })
+          .catch((e) => console.log(e));
       }
     });
   }, []);
