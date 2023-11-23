@@ -5,13 +5,14 @@ import '../styles/modal.css';
 import axios from 'axios';
 
 function Modal({ getModal }) {
+  const navigate = useNavigate();
   useEffect(() => {
     const nickname = document.getElementById('nickname');
     const save = document.getElementById('save');
     const closeBtn = document.getElementById('closeBtn');
     closeBtn.addEventListener('click', () => {
       if (localStorage.getItem('nickname')) {
-        window.location.replace('/');
+        window.location.replace('/community');
       } else {
         alert('닉네임 설정이 필수입니다.');
       }
@@ -39,7 +40,7 @@ function Modal({ getModal }) {
           .catch((error) => {
             console.log(error);
           });
-        window.location.replace('/community');
+        navigate(-1);
       }
     });
   }, []);
