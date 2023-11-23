@@ -1,17 +1,33 @@
+#contentViewWrapper {
+  margin: 3% auto;
+  width: 65%;
+  max-height: 75%;
+  border: 1px solid black;
+  overflow-y: hidden;
+}
+#backIcon {
+  width: 5%;
+  height: 5%;
+  margin: 1% 0 1% 0;
+}
+#contentWrapper {
+  padding: 2%;
+  max-height: 90%;
+}
 #UDButtonArea {
   z-index: 100;
-  min-width: 10%;
+  min-width: 70px;
+  min-height: 90px;
   max-width: 30%;
   float: right;
   display: flex;
   flex-direction: column;
 }
-#btn {
+#UDBtn {
   margin-left: 80%;
-  margin-bottom: 10%;
   background: url('../assets/images/ellipsis-vertical-solid.svg') no-repeat;
-  width: 2vw;
-  height: 2vh;
+  width: 80%;
+  height: 3vh;
   border: none;
 }
 .hidden {
@@ -21,8 +37,10 @@
 #contentMenu {
   flex-direction: column;
   margin-right: 20%;
+  margin-top: 5%;
   border-radius: 15%;
   box-shadow: rgba(128, 128, 128, 0.576) 2px 2px 2px 2px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -45,25 +63,22 @@
   font-size: large;
   border: none;
 }
-#contentWrapper {
-  margin: 0 auto;
-  max-height: 100%;
-  max-width: 980px;
-}
 #profile {
   background: url('../assets/images/user-regular.svg') no-repeat;
   background-size: 20px;
   background-position: center;
   border-radius: 2px;
   display: inline-block;
+  margin-top: 0.5%;
   width: 30px;
   height: 30px;
   margin-left: 5px;
 }
+#profileInfoArea {
+  display: flex;
+}
 #contentInfoArea {
-  position: absolute;
-  margin-left: 40px;
-  top: 105px;
+  margin-left: 1%;
 }
 #titleArea {
   margin: 2% 0 0 20px;
@@ -76,7 +91,6 @@
 #writeReply {
   width: 100%;
   text-align: center;
-  margin-bottom: 2%;
 }
 #replyInput {
   width: 80%;
@@ -90,11 +104,13 @@
 }
 #replyArea {
   height: 70%;
+  margin-top: 3%;
   overflow: hidden;
 }
 #relpyList {
-  width: 100%;
-  max-height: 80vh;
+  width: 95%;
+  margin: 0 auto;
+  max-height: 300px;
   overflow-y: scroll;
 }
 #replyUserTime {
