@@ -1,6 +1,6 @@
 import React from 'react';
-import { useEffect, useState } from 'react';
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 import '../styles/sidebar.css';
 
@@ -8,13 +8,7 @@ function Sidebar({ getBoardId, boardId }) {
   const ACTIVE_CLASS = 'active';
   const navigate = useNavigate();
   let newBoardId = boardId;
-  // const navigateToWrite = () => {
-  //   navigate('/community/write', {
-  //     state: {
-  //       BOARD_ID: newBoardId,
-  //     },
-  //   });
-  // };
+
   useEffect(() => {
     const writeBtn = document.getElementById('writeBtn');
 
@@ -41,19 +35,19 @@ function Sidebar({ getBoardId, boardId }) {
     });
   }, []);
   return (
-    <div class="sidebar">
+    <div className="sidebar">
       <Profile />
       <div id="writeBtnArea">
         <button type="button" id="writeBtn">
           글쓰기
         </button>
       </div>
-      <ul class="menuBox">
-        <li class="sidemenu" id="0">
-          '사건·사고 게시판'
+      <ul className="menuBox">
+        <li className="sidemenu" id="0">
+          사건·사고 게시판
         </li>
-        <li class="sidemenu" id="1">
-          '자유게시판'
+        <li className="sidemenu" id="1">
+          자유게시판
         </li>
       </ul>
     </div>

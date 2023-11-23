@@ -1,7 +1,6 @@
 import axios from '../lib/postAxios';
 
 async function get(postId) {
-  console.log('get');
   const data = await axios({
     method: 'get',
     url: `/${postId}`,
@@ -32,7 +31,6 @@ async function gets(boardId) {
 }
 
 async function post(title, contents, writerId, boardId) {
-  console.log('post');
   const status = await axios({
     method: 'post',
     url: '/new',
@@ -53,7 +51,6 @@ async function post(title, contents, writerId, boardId) {
 }
 
 async function update(title, contents, writerId, boardId, postId) {
-  console.log('update');
   const status = await axios({
     method: 'put',
     url: `/${postId}`,
