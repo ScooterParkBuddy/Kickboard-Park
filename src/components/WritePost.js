@@ -1,10 +1,10 @@
+import '../styles/writeContent.css';
 import { useEffect } from 'react';
 import ContentsModel from '../models/contentsModel';
 import { useLocation } from 'react-router-dom';
-import '../styles/writeContent.css';
-function UpdateContents() {
+function WritePost() {
   const location = useLocation();
-  const prop = { ...location.state };
+  const promise = { ...location.state };
 
   useEffect(() => {
     const inputTitle = document.getElementById('writeTitle');
@@ -13,26 +13,49 @@ function UpdateContents() {
     const boardSelect = document.getElementById('boardId');
     const option = document.querySelectorAll('option');
     for (let i = 0; i < option.length; i++) {
-      if (Number(option[i].value) === prop.boardId) {
+      if (Number(option[i].value) === promise.BOARD_ID) {
         option[i].selected = true;
+      }
+      if (Number(option[i].value) !== promise.BOARD_ID) {
+        option[i].disabled = true;
       }
     }
 
-    inputTitle.value = prop.title;
-    inputContents.value = prop.contents;
     writeForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const boardId = boardSelect.value;
       const title = inputTitle.value;
       const contents = inputContents.value;
-      const userId = localStorage.getItem('userId');
-      ContentsModel.update(title, contents, userId, Number(boardId), prop.postId);
-      window.location.replace('/community');
+      if (title === null || title === '' || title === undefined) {
+        alert('제목을 작성해 주세요');
+        //console.log(title);
+      }
+      if (
+        title !== null &&
+        title !== '' &&
+        title !== undefined &&
+        (contents === null || contents === '' || contents === undefined)
+      ) {
+        alert('내용을 입력해 주세요');
+      }
+      if (
+        title !== null &&
+        title !== '' &&
+        title !== undefined &&
+        contents !== null &&
+        contents !== '' &&
+        contents !== undefined
+      ) {
+        const writerId = localStorage.getItem('userId');
+
+        ContentsModel.post(title, contents, writerId, Number(boardId));
+        window.location.replace('/community');
+      }
     });
-  }, []);
+  }, [promise]);
   return (
     <div id="writeWraper">
-      <h2 id="viewTitle">글 수정하기</h2>
+      <h2 id="viewTitle">글 작성하기</h2>
       <form id="writeForm">
         <select id="boardId">
           <option value="none">게시판을 선택해 주세요</option>
@@ -40,11 +63,10 @@ function UpdateContents() {
           <option value="1">자유 게시판</option>
         </select>
         <input id="writeTitle" type="text" placeholder="제목을 입력해 주세요" />
-        <br />
         <textarea id="writeContents" type="text" placeholder="내용을 입력해 주세요" />
-        <input type="submit" id="complete" value="수정" />
+        <input type="submit" id="complete" value="작성 완료" />
       </form>
     </div>
   );
 }
-export default UpdateContents;
+export default WritePost;

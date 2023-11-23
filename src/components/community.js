@@ -1,59 +1,53 @@
 import '../styles/community.css';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import ContentsModel from '../models/contentsModel';
+import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import Sidebar from './Sidebar';
 import Forum from './Forum';
+import ContentView from './ContentView';
 
 function Community() {
-  const navigate = useNavigate();
-  // const navigateToAccident = () => {
-  //   navigate('/community/accident');
-  // };
-  // const navigateToGeneral = () => {
-  //   navigate('/community/general');
-  // };
+  const location = useLocation();
+  const prop = { ...location.state };
   const [boardId, setBoardId] = useState(0);
+  const [contentHidden, setContentHidden] = useState(prop.contentHidden === false ? prop.contentHidden : true);
+  const [contentsHidden, setContentsHidden] = useState(prop.contentHidden === false ? !prop.contentHidden : false);
+  const [postId, setPostId] = useState();
+
   const getBoardId = (value) => {
     setBoardId(value);
+    setContentHidden(true);
+    setContentsHidden(false);
   };
-  useEffect(() => {
-    // const accidentForum = document.getElementById('accidentForum');
-    // const generalForum = document.getElementById('generalForum');
-    // const acc_promise = ContentsModel.gets(A_BOARD_ID);
-    // acc_promise.then((data) => {
-    //   if (data.errorCode === 400) {
-    //     alert('로그인이 필요합니다');
-    //     navigate('/');
-    //   }
-    //   for (let i = data.length - 1; i >= 0; i--) {
-    //     if (i === data.length - 10) {
-    //       break;
-    //     }
-    //     const li = document.createElement('li');
-    //     li.innerText = data[i].title;
-    //     li.id = 'titleList';
-    //     accidentForum.appendChild(li);
-    //   }
-    // });
-    // const gen_promise = ContentsModel.gets(G_BOARD_ID);
-    // gen_promise.then((data) => {
-    //   for (let i = data.length - 1; i >= 0; i--) {
-    //     if (i === data.length - 10) {
-    //       break;
-    //     }
-    //     const li = document.createElement('li');
-    //     li.innerText = data[i].title;
-    //     li.id = 'titleList';
-    //     generalForum.appendChild(li);
-    //   }
-    // });
-  }, []);
+  const getContentHiddenToggle = () => {
+    setContentHidden((prev) => !prev);
+    setContentsHidden((prev) => !prev);
+  };
+  const getContentHidden = (value) => {
+    setContentHidden(value);
+    setContentsHidden(!value);
+  };
+  const getPostId = (value) => {
+    setPostId(value);
+  };
 
   return (
     <div id="community">
       <Sidebar getBoardId={getBoardId} boardId={boardId} />
-      <Forum boardId={boardId} />
+      {contentHidden ? (
+        <Forum
+          boardId={boardId}
+          getContentHiddenToggle={getContentHiddenToggle}
+          contentsHidden={contentsHidden}
+          getContentId={getPostId}
+        />
+      ) : (
+        <ContentView
+          postId={postId}
+          contentHidden={contentHidden}
+          getContentHiddenToggle={getContentHiddenToggle}
+          getContentHidden={getContentHidden}
+        />
+      )}
     </div>
   );
 }
