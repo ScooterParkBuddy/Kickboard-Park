@@ -20,7 +20,7 @@ function convertDateToString(dateString) {
   if (years === 0 && months === 0) {
     return `${days}일 전`;
   }
-  return `${dateTime.format('YYYY-MM-DD HH:mm')}`;
+  return `${dateTime.format('YYYY-MM-DD')}`;
 }
 
 export default convertDateToString;
