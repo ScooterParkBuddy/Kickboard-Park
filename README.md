@@ -46,7 +46,7 @@ const geolocation = useGeolocation();
     - 받은 인가코드를 서버에 넘겨주고 토큰 정보를 받음
     - 받은 AccessToken을 loginAxios의 헤더로 설정(커뮤니티 접근 시 필요)
       
-<p align="center"><img src="https://github.com/ScooterParkBuddy/Kickboard-Park/assets/126869993/11aaa860-fd99-41bc-8130-9c1bdc5a3c2e" style="width: 50%" /></p>
+<p align="center"><img src="https://github.com/ScooterParkBuddy/Kickboard-Park/assets/126869993/d76e647e-9e87-4b42-8c70-ebf27a7e0f16" style="width: 50%" /></p>
 
 - `커뮤니티`
 
